@@ -179,4 +179,4 @@ Seenivasan
 Data Analyst | SQL Enthusiast
 
 📧 Email: –
-🌐 GitHub: Seenivasan24
+🌐 GitHub: https://github.com/Seenivasan24
