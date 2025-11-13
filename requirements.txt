@@ -1,0 +1,13 @@
+#sql tool kit
+first run command in anaconda prompt complier
+
+pip install pymysql
+pip install sqlalchemy
+pip install psycopg2
+
+
+run in vs code
+import pandas
+import pymysql
+from sqlalchemy import create_engine
+import psycopg2
