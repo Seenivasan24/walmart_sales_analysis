@@ -1,53 +1,71 @@
-🛒 Walmart Sales Data Analysis
-📊 Project Overview
-This project performs data analysis on Walmart sales data to uncover business insights such as:
+# 🛒 Walmart Sales Data Analysis
 
-Revenue performance by branch and year
+A complete **SQL-based data analysis project** to explore Walmart’s sales data and uncover valuable business insights.  
+This project demonstrates the use of **SQL queries** for data cleaning, aggregation, and business performance analysis.
 
-Most popular payment methods
+---
 
-Sales trends by time of day (morning, afternoon, evening)
+## 📘 Project Overview
 
-Year-over-year revenue comparison
+The **Walmart Sales Data Analysis** project focuses on analyzing retail transaction data to understand:
+- 📊 Branch-wise revenue performance  
+- 💳 Most preferred payment methods  
+- ⏰ Sales distribution across different times of the day  
+- 📉 Year-over-year revenue changes (2022 vs 2023)
 
-The goal is to understand customer behavior and branch performance using SQL queries and basic data analysis.
+The analysis helps in making **data-driven decisions** to improve sales and operational efficiency.
 
-🗂️ Dataset
-File name: walmart-10k-sales-datasets.csv
-Description: Contains transaction-level data for multiple Walmart branches.
+---
 
-Key columns include:
+## 🧾 Dataset Description
 
-Column	Description
-invoice_id	Unique ID for each transaction
-branch	Store branch (A, B, or C)
-city	Location of the branch
-customer_type	Member or normal customer
-gender	Gender of the customer
-product_line	Category of the product sold
-unit_price	Price per item
-quantity	Number of items purchased
-tax	5% of the total cost
-total	Total amount paid
-date	Date of transaction
-time	Time of transaction
-payment	Payment method used
-rating	Customer satisfaction rating
+**Dataset Name:** `walmart-10k-sales-datasets.csv`  
+**Source:** Walmart sales data (sample dataset for learning and analysis)
 
-🧮 Tools & Technologies
-SQL – For data querying and aggregation
+| Column Name | Description |
+|--------------|-------------|
+| `invoice_id` | Unique ID for each transaction |
+| `branch` | Store branch (A, B, or C) |
+| `city` | City in which the branch is located |
+| `customer_type` | Type of customer (Member or Normal) |
+| `gender` | Gender of the customer |
+| `product_line` | Category of the product sold |
+| `unit_price` | Price per item |
+| `quantity` | Number of items purchased |
+| `tax` | Tax applied (5% of total) |
+| `total` | Total amount paid including tax |
+| `date` | Date of transaction |
+| `time` | Time of transaction |
+| `payment` | Payment method (Cash, Credit Card, Ewallet, etc.) |
+| `rating` | Customer satisfaction rating (1–10) |
 
-MySQL / PostgreSQL – Database engine
+---
 
-Python – For visualization or preprocessing
+## 🧠 Objectives
 
-Excel / Power BI (optional) – For charts and dashboards
+1. Identify the **most preferred payment method** for each branch.  
+2. Compare **revenue performance between 2022 and 2023**.  
+3. Categorize transactions into **Morning, Afternoon, and Evening**.  
+4. Discover the **top 5 branches** with the highest revenue drop.  
+5. Analyze overall **sales trends** and **customer behavior**.
 
-⚙️ Key SQL Analyses
-Preferred Payment Method per Branch
+---
 
-sql
-Copy code
+## 🛠️ Tools and Technologies Used
+
+| Tool / Technology | Purpose |
+|--------------------|----------|
+| **MySQL** | SQL queries and analysis |
+| **Excel** | data view purpose afeter cleaned|
+| **Python** | Data preprocessing or automation |
+| **Git & GitHub** | Version control and project hosting |
+
+---
+
+## ⚙️ SQL Queries Used
+
+### 🔹 1. Preferred Payment Method per Branch
+```sql
 WITH cte AS (
     SELECT 
         branch,
@@ -60,18 +78,20 @@ WITH cte AS (
 SELECT branch, payment_method AS preferred_payment_method
 FROM cte
 WHERE rank = 1;
-Revenue Drop from 2022 to 2023
 
-sql
-Copy code
+2 revenue
 WITH revenue_2022 AS (
-    SELECT branch, SUM(total) AS revenue_2022
+    SELECT 
+        branch,
+        SUM(total) AS revenue_2022
     FROM walmart
     WHERE YEAR(STR_TO_DATE(date, '%d/%m/%Y')) = 2022
     GROUP BY branch
 ),
 revenue_2023 AS (
-    SELECT branch, SUM(total) AS revenue_2023
+    SELECT 
+        branch,
+        SUM(total) AS revenue_2023
     FROM walmart
     WHERE YEAR(STR_TO_DATE(date, '%d/%m/%Y')) = 2023
     GROUP BY branch
@@ -86,8 +106,8 @@ JOIN revenue_2023 AS r23 ON r22.branch = r23.branch
 WHERE r22.revenue_2022 > r23.revenue_2023
 ORDER BY revenue_drop_percent DESC
 LIMIT 5;
-Sales by Time of Day
 
+3. Sales by Time of Day
 sql
 Copy code
 SELECT
@@ -99,17 +119,22 @@ SELECT
     COUNT(*) AS total_transactions
 FROM walmart
 GROUP BY day_time;
-📈 Insights
-Branch B had the highest total sales.
+📈 Key Insights
+Insight	Observation
+🏆 Top Branch	Branch B generated the highest total revenue
+💳 Preferred Payment	E-Wallets were most frequently used
+🕓 Peak Hours	Majority of transactions occurred during Evening
+📉 Revenue Drop	Some branches had lower revenue in 2023 compared to 2022
+⭐ Customer Ratings	Average ratings were between 6–8, showing moderate satisfaction
 
-E-wallets were the most used payment method across branches.
+🚀 How to Run the Project
+Clone this repository
 
-Most purchases happened in the evening.
-
-Revenue declined in some branches in 2023 compared to 2022.
-
-🚀 How to Run
-Import dataset into your SQL environment:
+bash
+Copy code
+git clone git@github.com:Seenivasan24/walmart_analysis.git
+Open MySQL or any SQL tool
+Create a database and import the dataset:
 
 sql
 Copy code
@@ -119,17 +144,39 @@ LOAD DATA INFILE 'walmart-10k-sales-datasets.csv'
 INTO TABLE walmart
 FIELDS TERMINATED BY ','
 IGNORE 1 ROWS;
-Run the SQL queries from this project.
+Run the SQL queries provided above.
 
-Review outputs or visualize results in Power BI / Excel.
+View outputs directly in SQL or export data to Excel/Power BI for visualization.
 
-🧠 Future Enhancements
-Build interactive Power BI dashboards.
+📊 Sample Output (Example)
+Branch	Preferred Payment	Total Transactions
+A	Cash	340
+B	Ewallet	520
+C	Credit card	460
 
-Add Python notebooks for deeper trend analysis.
+Branch	2022 Revenue	2023 Revenue	Drop %
+B	1,200,000	950,000	20.8%
+C	980,000	780,000	20.4%
 
-Predict future revenue using machine learning.
+🧩 Future Improvements
+Add Power BI dashboards for visualization
 
+Integrate Python for data cleaning & analytics
+
+Use Machine Learning models to predict future sales trends
+
+📁 Project Structure
+bash
+Copy code
+walmart_analysis/
+│
+├── walmart-10k-sales-datasets.csv      # Dataset file
+├── walmart_analysis.sql                # SQL scripts
+├── README.md                           # Project documentation
+└── results/                            # Query outputs (optional)
 👨‍💻 Author
 Seenivasan
-Data & SQL Enthusiast
+Data Analyst | SQL Enthusiast
+
+📧 Email: –
+🌐 GitHub: Seenivasan24
